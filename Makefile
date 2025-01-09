@@ -1,5 +1,5 @@
-WP_DATA = /home/data/wordpress #define the path to the wordpress data
-DB_DATA = /home/data/mariadb #define the path to the mariadb data
+WP_DATA = /home/udumas/data/wordpress #define the path to the wordpress data
+DB_DATA = /home/udumas/data/mariadb #define the path to the mariadb data
 
 # default target
 all: up
@@ -38,9 +38,9 @@ clean:
 	@docker rm $$(docker ps -qa) || true
 	@docker rmi -f $$(docker images -qa) || true
 	@docker volume rm $$(docker volume ls -q) || true
-	@docker network rm $$(docker network ls -q) || true
-	@rm -rf $(WP_DATA) || true
-	@rm -rf $(DB_DATA) || true
+	@docker network rm inception || true
+	@sudo rm -rf $(WP_DATA) || true
+	@sudo rm -rf $(DB_DATA) || true
 
 # clean and start the containers
 re: clean up

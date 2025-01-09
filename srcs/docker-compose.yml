@@ -1,10 +1,7 @@
-version: "3.8"
-
-# the services part
+# Services
 services:
-#mariadb
   mariadb:
-    image: mariadb:user
+    image: mariadb
     container_name: mariadb
     build: ./requirements/mariadb
     volumes:
@@ -13,15 +10,15 @@ services:
       - .env
     networks :
       - inception
-    restart: always
+    restart: on-failure
     healthcheck:
       test: ["CMD", "nc", "-zv", "mariadb", "3306"]
       interval: 1s
       timeout: 5s
       retries: 10
-#nginx
+#Nginx
   nginx:
-    image: nginx:user
+    image: nginx
     container_name: nginx
     build: ./requirements/nginx
     ports:
@@ -32,10 +29,10 @@ services:
       - wordpress:/var/www/wordpress
     networks:
       - inception
-    restart: always
-#wordpress
+    restart: on-failure
+#Wordpress
   wordpress:
-    image: wordpress:user
+    image: wordpress
     container_name: wordpress
     build: ./requirements/wordpress
     depends_on:
@@ -47,22 +44,22 @@ services:
       - .env
     networks:
       - inception
-    restart: always
+    restart: on-failure
 
-# the volumes part
+#Volumes
 volumes:
   mariadb:
     name: mariadb
     driver: local
     driver_opts:
-      device: /home/data/mariadb
+      device: /home/udumas/data/mariadb
       o : bind
       type : none
   wordpress:
     name: wordpress
     driver: local
     driver_opts:
-      device: /home/data/wordpress
+      device: /home/udumas/data/wordpress
       o : bind
       type : none
 
